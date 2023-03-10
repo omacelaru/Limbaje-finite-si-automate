@@ -1,10 +1,10 @@
 def read_data(name_file="input1.in"):
     input = []
     with open(name_file) as f:
-        init = f.readline().strip() # starea initiala
-        final = f.readline().strip().split()  # starea finala
+        init = f.readline().strip().lower() # starea initiala
+        final = f.readline().strip().lower().split()  # starea finala
         for line in f:
-            input.append(line.strip().split())
+            input.append(line.strip().lower().split())
 
     input.sort(key=lambda t: (t[:][0], t[:][1]))  # sortarea datelor
 
@@ -24,9 +24,8 @@ def read_data(name_file="input1.in"):
     matrix = [[0 for x in range(len(alfabet))] for y in range(len(stari))]
     for line in input:
         i = int(line[0][-1])
-        j = int(line[1])
+        j = int(line[1]) if line[1].isdigit() else ord(line[1]) - ord('a')
         matrix[i][j] = line[2]
-
     return stari, alfabet, matrix, init, final
 
 
@@ -35,7 +34,7 @@ def verify_word(cuv, matrix, init, final):
     for c in cuv:
         path.append(init)
         i = int(init[-1])
-        j = int(c)
+        j = int(c) if c.isdigit() else ord(c) - ord('a')
         init = matrix[i][j]
         if init == 0:
             print("Input gresit")
@@ -53,7 +52,7 @@ stari, alfabet, matrix, init, final = read_data(name_file_input)
 with open(name_file_test) as f:
     words = []
     for line in f:
-        words.append(line.strip())
+        words.append(line.strip().lower())
 
 for word in words:
     print("Cuvantul testat este: ", word)
