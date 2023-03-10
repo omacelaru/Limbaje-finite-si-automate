@@ -32,14 +32,17 @@ def read_data(name_file="input1.in"):
 def verify_word(cuv, matrix, init, final):
     path = []
     for c in cuv:
-        path.append(init)
-        i = int(init[-1])
-        j = int(c) if c.isdigit() else ord(c) - ord('a')
-        init = matrix[i][j]
-        if init == 0:
+        path.append(init)                                  # adaugarea componentei in drum
+
+        i = int(init[-1])                                  #
+        j = int(c) if c.isdigit() else ord(c) - ord('a')   # parcurgerea functiei delta
+        init = matrix[i][j]                                #
+        if init == 0:                                      # verificarea unei erori de citire a datelor
             print("Input gresit")
             return False, []
-    path.append(init)
+
+    path.append(init)                                      # adaugarea ultimei stari in drum
+
     if init in final:
         return True, path
     return False, []
@@ -50,6 +53,7 @@ name_file_test = "test2.in"
 stari, alfabet, matrix, init, final = read_data(name_file_input)
 
 with open(name_file_test) as f:
+    # citirea cuvintelor penrtu test
     words = []
     for line in f:
         words.append(line.strip().lower())
