@@ -1,56 +1,48 @@
-def read_data(name_file="input1.in"):
-    input = []
-    with open(name_file) as f:
-        init = f.readline().strip().lower() # starea initiala
-        final = f.readline().strip().lower().split()  # starea finala
-        for line in f:
-            input.append(line.strip().lower().split())
+class graph:
+    def __init__(self, name_file="input1.in"):
+        input_text = []
+        with open(name_file) as f:
+            self.start_node = f.readline().strip().lower()  # starea initiala
+            self.final_nodes = f.readline().strip().lower().split()  # stari finale
+            for line in f:
+                input_text.append(line.strip().lower().split())
+        input_text.sort(key=lambda t: (t[:][0], t[:][1]))  # sortarea datelor
 
-    input.sort(key=lambda t: (t[:][0], t[:][1]))  # sortarea datelor
+        # extragerea unica a starilor
+        self.states = sorted(list(set([s[0] for s in input_text]) | set([s[2] for s in input_text])))
 
-    # extragerea unica a starilor
-    stari = {x[0] for x in input}
-    stari_second = {x[2] for x in input}
-    stari = stari.union(stari_second)
-    stari = list(stari)
-    stari.sort()
+        # extagerea unica a alfabetului
+        self.alfabet = sorted(list({x[1] for x in input_text}))
 
-    # extagerea unica a alfabetului
-    alfabet = {x[1] for x in input}
-    alfabet = list(alfabet)
-    alfabet.sort()
+        # formarea functiei delta
+        self.matrix = [[0 for x in range(len(self.alfabet))] for y in range(len(self.states))]
+        for line in input_text:
+            i = int(line[0][-1])
+            j = int(line[1]) if line[1].isdigit() else ord(line[1]) - ord('a')
+            self.matrix[i][j] = line[2]
 
-    # formarea functiei delta
-    matrix = [[0 for x in range(len(alfabet))] for y in range(len(stari))]
-    for line in input:
-        i = int(line[0][-1])
-        j = int(line[1]) if line[1].isdigit() else ord(line[1]) - ord('a')
-        matrix[i][j] = line[2]
-    return stari, alfabet, matrix, init, final
+    def verify_word(self, word):
+        path = []
+        for c in word:
+            path.append(self.start_node)  # adaugarea componentei in drum
 
+            i = int(self.start_node[-1])  #
+            j = int(c) if c.isdigit() else ord(c) - ord('a')  # parcurgerea functiei delta
+            self.start_node = self.matrix[i][j]  #
+            if self.start_node == 0:  # verificarea unei erori de citire a datelor
+                print("Input gresit")
+                return False, []
 
-def verify_word(cuv, matrix, init, final):
-    path = []
-    for c in cuv:
-        path.append(init)                                  # adaugarea componentei in drum
+        path.append(self.start_node)  # adaugarea ultimei stari in drum
 
-        i = int(init[-1])                                  #
-        j = int(c) if c.isdigit() else ord(c) - ord('a')   # parcurgerea functiei delta
-        init = matrix[i][j]                                #
-        if init == 0:                                      # verificarea unei erori de citire a datelor
-            print("Input gresit")
-            return False, []
-
-    path.append(init)                                      # adaugarea ultimei stari in drum
-
-    if init in final:
-        return True, path
-    return False, []
+        if self.start_node in self.final_nodes:
+            return True, path
+        return False, []
 
 name_file_input = "input2.in"
 name_file_test = "test2.in"
 
-stari, alfabet, matrix, init, final = read_data(name_file_input)
+graph = graph(name_file_input)
 
 with open(name_file_test) as f:
     # citirea cuvintelor penrtu test
@@ -61,7 +53,7 @@ with open(name_file_test) as f:
 for word in words:
     print("Cuvantul testat este: ", word)
 
-    is_accepted, path = verify_word(word, matrix, init, final)
+    is_accepted, path = graph.verify_word(word)
 
     if is_accepted == True:
         print("Acceptat")
