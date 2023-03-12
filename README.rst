@@ -3,6 +3,7 @@ Limbaje-finite-si-automate
 
 Fișierul de input
 -----------------
+::
   | q0       # stare initiala
   | q1 q3    # stari finale
   | q0 1 q0  # Tranziții
