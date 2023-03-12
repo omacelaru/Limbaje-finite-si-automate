@@ -1,5 +1,8 @@
 Limbaje-finite-si-automate
 ========
+
+TEMA 1
+======
 Aplicatia determina dacă un cuvânt dat este acceptat sau nu de către un automat finit determinist (AFD), și în caz afirmativ, afișază drumului folosit pentru a ajunge la acceptare.
 
 Un AFD este un model al unui sistem care procesează cuvinte. Acesta este definit de o mulțime finită de stări, o mulțime finită de simboluri (alfabetul de intrare), o funcție de tranziție care asociază fiecărei perechi (stare, simbol de intrare) o altă stare, o stare inițială și un set de stări finale.
