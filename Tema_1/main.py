@@ -15,7 +15,7 @@ class graph:
         self.alfabet = sorted(list({x[1] for x in input_text}))
 
         # formarea functiei delta
-        self.matrix = [[0 for x in range(len(self.alfabet) + 1)] for y in range(len(self.states) + 1)]
+        self.matrix = [[0 for x in range(len(self.alfabet))] for y in range(len(self.states) +1)]
 
         for line in input_text:
             i = int(line[0][-1])
@@ -26,10 +26,13 @@ class graph:
         path = []
         self.start = self.start_node
         for c in word:
+
             path.append(self.start)  # adaugarea componentei in drum
 
-            if self.start_node[-1] != 0:
-                i = int(self.start_node[-1])
+            if self.start != 0:
+                i = int(self.start[-1])
+            else:
+                return False, []
             j = int(c) if c.isdigit() else ord(c) - ord('a')  # parcurgerea functiei delta
             self.start = self.matrix[i][j]  #
             if self.start_node == 0:  # verificarea unei erori de citire a datelor
@@ -42,8 +45,10 @@ class graph:
             return True, path
         return False, []
 
-name_file_input = "input3.in"
-name_file_test = "test3.in"
+
+file = 3
+name_file_input = "input" + str(file) + ".in"
+name_file_test = "test" + str(file) + ".in"
 
 graph = graph(name_file_input)
 
