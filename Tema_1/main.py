@@ -1,4 +1,4 @@
-class graph:
+class GRAPH:
     def __init__(self, name_file):
         input_text = []
         with open(name_file) as f:
@@ -50,7 +50,7 @@ file = 3
 name_file_input = "input" + str(file) + ".in"
 name_file_test = "test" + str(file) + ".in"
 
-graph = graph(name_file_input)
+graph = GRAPH(name_file_input)
 
 with open(name_file_test) as f:
     # citirea cuvintelor penrtu test
