@@ -19,31 +19,40 @@ class GRAPH:
 
         for line in input_text:
             i = self.states.index(line[0])
-            j = int(line[1]) if line[1].isdigit() else ord(line[1]) - ord('a')
-            self.matrix[i][j] = line[2]
+            j = self.alfabet.index(line[1])
+            if self.matrix[i][j] == -1:
+                self.matrix[i][j] = [line[2]]
+            else:
+                self.matrix[i][j].append(line[2])
+
 
     def verify_word(self, word):
         path = []
-        self.start = self.start_node
+        self.start = [self.start_node]
         for c in word:
 
             path.append(self.start)  # adaugarea componentei in drum
-
-            i = self.states.index(self.start)
-            j = int(c) if c.isdigit() else ord(c) - ord('a')  # parcurgerea functiei delta
-            self.start = self.matrix[i][j]  #
-            if self.start == -1:  # verificarea unei erori de citire a datelor
-                print("Input gresit")
-                return False, []
+            j = self.alfabet.index(c) # parcurgerea functiei delta
+            next = []
+            for x in self.start:
+                i = self.states.index(x)
+                if x == -1:  # verificarea unei erori de citire a datelor
+                    print("Input gresit")
+                    return False, []
+                # print(self.start,i,j,c, self.matrix[i][j])
+                if self.matrix[i][j] != -1:
+                    next.extend(self.matrix[i][j])
+            print(next)
+            self.start = next
 
         path.append(self.start)  # adaugarea ultimei stari in drum
-
-        if self.start in self.final_nodes:
-            return True, path
+        for node in self.start:
+            if node in self.final_nodes:
+                return True, path
         return False, []
 
 
-file = 3
+file = 4
 name_file_input = "input" + str(file) + ".in"
 name_file_test = "test" + str(file) + ".in"
 
@@ -62,7 +71,12 @@ for word in words:
 
     if is_accepted == True:
         print("Acceptat")
-        sir = " -> ".join(path)
+        for i in range(len(path)):
+            cale = ""
+            for j in range(len(path[i])):
+                cale += path[i][j] + " "
+            path[i] = cale
+        sir = "-> ".join(path)
         print(sir)
     else:
         print("RESPINS")
