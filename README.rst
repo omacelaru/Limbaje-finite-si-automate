@@ -13,6 +13,12 @@ Pentru a determina dacă un cuvânt este acceptat de către un AFD, vom începe 
 
 Dacă cuvântul este acceptat, pentru a afișa drumul folosit pentru acceptare, vom înregistra stările prin care am trecut în timpul procesării cuvântului. Astfel, vom putea afișa secvența de stări care a fost urmată pentru a ajunge la o stare finală.
 
+TEMA 2
+======
+
+Folosirea backtracking constă în explorarea recursivă a tuturor posibilităților de a construi cuvintele dorite. Algoritmul de backtracking începe cu un cuvânt vid și adaugă pe rând litere la acesta până când se ajunge la lungimea maximă dată. Algoritmul verifică dacă cuvântul construit se află într-o stare finală a automatului finit și, în caz afirmativ, adaugă cuvântul la lista de cuvinte acceptate.
+
+
 Fișierul de input
 -----------------
 
