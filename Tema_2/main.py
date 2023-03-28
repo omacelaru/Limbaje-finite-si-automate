@@ -12,14 +12,15 @@ class GRAPH:
         self.states = sorted(list(set([s[0] for s in input_text]) | set([s[2] for s in input_text])))
 
         # extagerea unica a alfabetului
-        self.alfabet = sorted(list({x[1] for x in input_text}))
+        self.MAX = str(int(max(list({x[1] for x in input_text}))) + 1) # maximul pt lambda
+        self.alfabet = sorted(list({x[1] if int(x[1]) != -1 else self.MAX for x in input_text }))
 
         # formarea functiei delta
         self.matrix = [[-1 for x in range(len(self.alfabet))] for y in range(len(self.states))]
 
         for line in input_text:
             i = self.states.index(line[0])
-            j = self.alfabet.index(line[1])
+            j = self.alfabet.index(line[1] if int(line[1]) != -1 else self.MAX)
             if self.matrix[i][j] == -1:
                 self.matrix[i][j] = [line[2]]
             else:
@@ -36,6 +37,12 @@ class GRAPH:
             next = []
             for x in self.start:
                 i = self.states.index(x)
+                if self.matrix[i][-1] != -1:
+                    for k in self.matrix[i][-1]:
+                        if k in self.start:
+                            break
+                    else:
+                        self.start.extend(self.matrix[i][-1])
                 if x == -1:  # verificarea unei erori de citire a datelor
                     print("Input gresit")
                     return False
@@ -51,25 +58,43 @@ class GRAPH:
 
     words = []
     def bkt(self,k):
-        for v in self.alfabet:
+        for v in self.alfabet[:-1]:
             self.s[k] = v
             if k == self.N - 1:
                 self.words.append("".join(self.s))
             else:
                 self.bkt(k+1)
 
-file = 3
+file = 5
 file_name = "input" + str(file) + ".in"
 
-n = 100
+n = 15
+
+# cazul cu lungime 0
 graph = GRAPH(file_name,n)
-graph.bkt(0)
+print("Lungime maxima: 0", )
+print()
+if graph.start_node in graph.final_nodes:
+    print(1)
+else:
+    print(0)
+print()
+del graph
 
-result = []
-for word in graph.words:
-    if graph.verify_word(word) == True:
-        result.append(word)
 
-print(*result, sep="\n")
-print(len(result))
+for N in range(1,n+1):
+    print("Lungime maxima: ", N)
+    graph = GRAPH(file_name,N)
+    graph.bkt(0)
+
+    result = []
+    for word in graph.words:
+        if graph.verify_word(word) == True:
+            word = word.replace(graph.MAX,'\u03BB')
+            result.append(word)
+
+    print(*result, sep="\n")
+    print(len(result))
+    print()
+    del graph
 

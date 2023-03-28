@@ -42,7 +42,6 @@ class GRAPH:
                 # print(self.start,i,j,c, self.matrix[i][j])
                 if self.matrix[i][j] != -1:
                     next.extend(self.matrix[i][j])
-            print(next)
             self.start = next
 
         path.append(self.start)  # adaugarea ultimei stari in drum
@@ -52,7 +51,7 @@ class GRAPH:
         return False, []
 
 
-file = 4
+file = 3
 name_file_input = "input" + str(file) + ".in"
 name_file_test = "test" + str(file) + ".in"
 
