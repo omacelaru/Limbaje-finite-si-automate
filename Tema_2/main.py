@@ -68,7 +68,7 @@ class GRAPH:
 file = 5
 file_name = "input" + str(file) + ".in"
 
-n = 15
+n = 5
 
 # cazul cu lungime 0
 graph = GRAPH(file_name,n)
