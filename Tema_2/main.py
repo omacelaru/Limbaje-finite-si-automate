@@ -71,12 +71,16 @@ file_name = "input" + str(file) + ".in"
 n = 5
 
 # cazul cu lungime 0
+result = []
 graph = GRAPH(file_name,n)
 print("Lungime maxima: 0", )
 print()
 if graph.start_node in graph.final_nodes:
+    result.append("")
+    ok = 1
     print(1)
 else:
+    ok = 0
     print(0)
 print()
 del graph
@@ -87,7 +91,10 @@ for N in range(1,n+1):
     graph = GRAPH(file_name,N)
     graph.bkt(0)
 
-    result = []
+    if ok == 1:
+        result = result[:1]
+    else:
+        result = []
     for word in graph.words:
         if graph.verify_word(word) == True:
             word = word.replace(graph.MAX,'\u03BB')
